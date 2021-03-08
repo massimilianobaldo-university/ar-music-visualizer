@@ -16,3 +16,9 @@ Moreover, the JS libraries are:
 - [Started Project](https://github.com/Raathigesh/HTML5AudioVisualizer)
 
 - [Examples of Ar.js](https://github.com/stemkoski/AR-Examples)
+
+## TODO
+
+- [ ] Create the random color for the bars
+- [ ] Structurize the project folder
+- [ ] Possible use of a bundler or task runner
