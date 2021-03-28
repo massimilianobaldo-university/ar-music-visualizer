@@ -17,6 +17,8 @@ Moreover, the JS libraries are:
 
 - [Examples of Ar.js](https://github.com/stemkoski/AR-Examples)
 
+- [Visualizer Example](https://github.com/wayou/3D_Audio_Spectrum_VIsualizer)
+
 ## TODO
 
 - [ ] Create the random color for the bars

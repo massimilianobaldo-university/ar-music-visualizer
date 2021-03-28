@@ -107,16 +107,17 @@ function initialize() {
                     // Create a bar
                     let barGeometry = new THREE.BoxGeometry(0.15, 0.2, 0.15);
 
+                    let c = goldRatioColors();
+
                     // Create a material
                     let material = new THREE.MeshPhongMaterial({
-                        color: new THREE.Color(0x45f45),
+                        color: new THREE.Color(RGBToHex(c.r, c.g, c.b)),
                         specular: 0xffffff
                     });
 
                     // Create the geometry and set the initial position
                     bars[i] = new THREE.Mesh(barGeometry, material);
-                    bars[i].position.set(i/3 - NUMBER_OF_BARS/2 + 5, 0.25, 0);
-                    console.log(bars[i].position.x);
+                    bars[i].position.set(i / 3 - NUMBER_OF_BARS / 2 + 5, 0.25, 0);
 
                     // Add the created bar to the scene
                     audioVisualizer.add(bars[i]);
