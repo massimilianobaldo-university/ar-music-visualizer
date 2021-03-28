@@ -8,7 +8,7 @@ let scene, camera, renderer;
 let arToolkitSource, arToolkitContext;
 
 // The real 3D Visualizer
-let bars = [];
+let bars = new LinkedList();
 
 // The THREE.Group() where to store all the bars for the visualizer
 let audioVisualizer;
@@ -102,26 +102,8 @@ function initialize() {
                     type: 'pattern', patternUrl: "./data/hiro.patt",
                 })
 
-                for (let i = 0; i < NUMBER_OF_BARS; i++) {
-
-                    // Create a bar
-                    let barGeometry = new THREE.BoxGeometry(0.15, 0.2, 0.15);
-
-                    let c = goldRatioColors();
-
-                    // Create a material
-                    let material = new THREE.MeshPhongMaterial({
-                        color: new THREE.Color(RGBToHex(c.r, c.g, c.b)),
-                        specular: 0xffffff
-                    });
-
-                    // Create the geometry and set the initial position
-                    bars[i] = new THREE.Mesh(barGeometry, material);
-                    bars[i].position.set(i / 3 - NUMBER_OF_BARS / 2 + 5, 0.25, 0);
-
-                    // Add the created bar to the scene
-                    audioVisualizer.add(bars[i]);
-                }
+                // Create a bar
+                let barGeometry = new THREE.BoxGeometry(0.15, 0.2, 0.15);
 
                 ///// Getting and Processing the Audio Stream from Microphone /////
 
@@ -149,11 +131,56 @@ function initialize() {
 
                     let step = Math.round(array.length / NUMBER_OF_BARS);
 
-                    // Iterate through the bars and scale the y axis
-                    for (let i = 0; i < NUMBER_OF_BARS; i++) {
-                        let value = array[i * step] / 8;
-                        value = value < 1 ? 1 : value;
-                        bars[i].scale.y = value;
+                    // Generate a Random Color
+                    let color = goldRatioColors();
+
+                    // Create a material
+                    let material = new THREE.MeshPhongMaterial({
+                        color: new THREE.Color(RGBToHex(color.r, color.g, color.b)),
+                        specular: 0xffffff
+                    });
+
+                    // Create the geometry for the bar
+                    let bar = new THREE.Mesh(barGeometry, material);
+
+                    // Scale the object
+                    let value = array[(Math.floor(Math.random() * 10) + 1) * step] / 6;
+                    value = value < 1 ? 1 : value;
+                    bar.scale.y = value;
+
+                    // Create a Bounding Box to calculate the actual dimensions
+                    let BB = new THREE.Box3().setFromObject(bar);
+                    let heightBar = BB.getSize().y;
+
+                    // Set the position for the bars
+                    bar.position.set(2.5, bar.position.y + heightBar/2, 0);
+
+                    // Create the node rappresent the bar for the linked list
+                    let barNode = new Node(bar);
+
+                    // Get the head of the linkelist
+                    let head = bars.getFirst();
+
+                    // Control that head is not null and is to distante
+                    if (head == null || head.data.position.x > -2.5) {
+                        // Add the bar to the LinkedList
+                        bars.add(barNode);
+                    } else {
+                        // Before remove the head from the scene
+                        bars.remove();
+                        audioVisualizer.remove(head.data);
+                        bars.add(barNode);
+                    }
+
+                    // Add the created bar to the scene
+                    audioVisualizer.add(bar);
+
+                    // Iterate through the bars and translate them
+                    let node = bars.getFirst();
+                    while (node != null) {
+                        let x = node.data.position.x - 0.22;
+                        node.data.position.set(x, node.data.position.y, 0);
+                        node = node.next;
                     }
 
                     // Render the changes
