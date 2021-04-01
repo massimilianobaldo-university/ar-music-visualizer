@@ -1,0 +1,30 @@
+{
+  "name": "ar-project",
+  "version": "0.5.0",
+  "description": "Dead simple sound visualizer in an AR system",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/massimilianobaldo/ar-music-visualizer.git"
+  },
+  "keywords": [
+    "ar",
+    "javascrpit",
+    "jsartoolkit",
+    "sound",
+    "visualizer"
+  ],
+  "author": "Massimiliano Baldo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/massimilianobaldo/ar-music-visualizer/issues"
+  },
+  "homepage": "https://github.com/massimilianobaldo/ar-music-visualizer#readme",
+  "devDependencies": {
+    "serve": "^11.3.2"
+  },
+  "dependencies": {}
+}
