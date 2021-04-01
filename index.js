@@ -3,10 +3,10 @@ const NUMBER_OF_BARS = 12;
 
 function initialize() {
     /// three-system -> setup(NUMBER_OF_BARS)
-    setupThreeSystem();
+    ThreeSystem.setup();
 
     /// ar-sysetm -> setup()
-    setupArSystem();
+    ArSystem.setup();
 
     if (navigator.mediaDevices) {
         console.log('getUserMedia supported.');
@@ -16,21 +16,21 @@ function initialize() {
             .then(function (audioStream) {
                 /// already create in the three-sysetm -> setup
 
-                let audioGroup = getAudioGroup(); /// three-sysetm -> getAudioGroup()
+                let audioGroup = ThreeSystem.getAudioGroup(); /// three-sysetm -> getAudioGroup()
 
                 // build markerControls
-                let markerControls = generateMarkerControls(audioGroup) /// ar-sysem -> generateMarkerControls(audioGroup)*/
+                let markerControls = ArSystem.generateMarkerControls(audioGroup) /// ar-sysem -> generateMarkerControls(audioGroup)*/
 
                 /// already create in the three-sysetm -> setup
 
                 //// audio-system -> setup
-                setupAudioSystem(audioStream);
+                AudioSystem.setup(audioStream);
 
                 // The render Loop for the processor system
                 function animate() {
                     requestAnimationFrame(animate);
                     
-                    let array = getFrequencyAudio();
+                    let array = AudioSystem.getFrequencyAudio();
 
                     let step = Math.round(array.length / NUMBER_OF_BARS);
 
@@ -43,14 +43,14 @@ function initialize() {
                     // let color = goldRatioColors();
 
                     // Create a material
-                    let material = generateMaterial(); /// three-system -> genearteMaterial()
+                    let material = ThreeSystem.generateMaterial(); /// three-system -> genearteMaterial()
 
-                    initThreeSystem(material, array, step);
+                    ThreeSystem.initialize(material, array, step);
 
                     // Render the changes
-                    update();
+                    ArSystem.update();
                     /// three-system ->render();
-                    render();
+                    ThreeSystem.render();
                 }
                 animate();
             })

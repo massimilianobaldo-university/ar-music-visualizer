@@ -1,8 +1,6 @@
-// Implementation of the classic data structure (Singly) Linked List
-// In this case, I decided to follow the FIFO policy.
-
 /**
- * Class to implement the LinkedList
+ * Implementation of the classic data structure (Singly) Linked List.
+ * In this case, I decided to follow the FIFO policy.
  */
 class LinkedList {
     /**
