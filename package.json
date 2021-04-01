@@ -4,7 +4,8 @@
   "description": "Dead simple sound visualizer in an AR system",
   "main": "index.js",
   "scripts": {
-    "start": "serve ."
+    "start": "serve .",
+    "generate-doc": "jsdoc -r ./js -R ./README.md"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/massimilianobaldo/ar-music-visualizer#readme",
   "devDependencies": {
+    "jsdoc": "^3.6.6",
     "serve": "^11.3.2"
   },
   "dependencies": {}
