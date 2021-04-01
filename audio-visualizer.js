@@ -1,5 +1,5 @@
 //constants
-const NUMBER_OF_BARS = 15;
+const NUMBER_OF_BARS = 12;
 
 // Variabels for create the 3D Objects
 let scene, camera, renderer;
@@ -7,8 +7,13 @@ let scene, camera, renderer;
 // Core variables of AR.js system
 let arToolkitSource, arToolkitContext;
 
-// The real 3D Visualizer
-let bars = new LinkedList();
+// The grid for the real 3D Visualizer
+// Array of LinkeList with the size of NUMBER_OF_BARS
+let gridBars = []
+for (let i = 0; i < NUMBER_OF_BARS; i++) {
+    gridBars[i] = new LinkedList();
+}
+//let bars = new LinkedList();
 
 // The THREE.Group() where to store all the bars for the visualizer
 let audioVisualizer;
@@ -131,6 +136,11 @@ function initialize() {
 
                     let step = Math.round(array.length / NUMBER_OF_BARS);
 
+                    // The difficul part
+                    // For every element in the array, i need the last one
+                    // I generate a new one
+                    // I attached to the end of the list
+
                     // Generate a Random Color
                     let color = goldRatioColors();
 
@@ -140,47 +150,52 @@ function initialize() {
                         specular: 0xffffff
                     });
 
-                    // Create the geometry for the bar
-                    let bar = new THREE.Mesh(barGeometry, material);
+                    for (let i = 0; i < gridBars.length; i++) {
+                        // Create the geometry for the bar
+                        let bar = new THREE.Mesh(barGeometry, material);
 
-                    // Scale the object
-                    let value = array[(Math.floor(Math.random() * 10) + 1) * step] / 6;
-                    value = value < 1 ? 1 : value;
-                    bar.scale.y = value;
+                        // Scale the object
+                        let value = array[(Math.floor(Math.random() * 10) + 1) * step] / 8;
+                        value = value < 1 ? 1 : value;
+                        bar.scale.y = value;
 
-                    // Create a Bounding Box to calculate the actual dimensions
-                    let BB = new THREE.Box3().setFromObject(bar);
-                    let heightBar = BB.getSize().y;
+                        // Create a Bounding Box to calculate the actual dimensions
+                        let BB = new THREE.Box3().setFromObject(bar);
+                        let heightBar = BB.getSize().y;
 
-                    // Set the position for the bars
-                    bar.position.set(2.5, bar.position.y + heightBar/2, 0);
+                        // Calculate the z position where to put bars
+                        let z = i == 0 ? 1.5 : gridBars[i - 1].getLast().data.position.z - 0.3;
 
-                    // Create the node rappresent the bar for the linked list
-                    let barNode = new Node(bar);
+                        // Set the position for the bars
+                        bar.position.set(2, bar.position.y + heightBar / 2, z);
 
-                    // Get the head of the linkelist
-                    let head = bars.getFirst();
+                        // Create the node rappresent the bar for the linked list
+                        let barNode = new Node(bar);
 
-                    // Control that head is not null and is to distante
-                    if (head == null || head.data.position.x > -2.5) {
-                        // Add the bar to the LinkedList
-                        bars.add(barNode);
-                    } else {
-                        // Before remove the head from the scene
-                        bars.remove();
-                        audioVisualizer.remove(head.data);
-                        bars.add(barNode);
-                    }
+                        // Get the head of the linkelist
+                        let head = gridBars[i].getFirst();
 
-                    // Add the created bar to the scene
-                    audioVisualizer.add(bar);
+                        // Control that head is not null and is to distante
+                        if (gridBars[i].size < NUMBER_OF_BARS) {
+                            // Add the bar to the LinkedList
+                            gridBars[i].add(barNode);
+                        } else {
+                            // Before remove the head from the scene
+                            gridBars[i].remove();
+                            audioVisualizer.remove(head.data);
+                            gridBars[i].add(barNode);
+                        }
 
-                    // Iterate through the bars and translate them
-                    let node = bars.getFirst();
-                    while (node != null) {
-                        let x = node.data.position.x - 0.22;
-                        node.data.position.set(x, node.data.position.y, 0);
-                        node = node.next;
+                        // Add the created bar to the scene
+                        audioVisualizer.add(bar);
+
+                        // Iterate through the bars and translate them
+                        let node = head;
+                        while (node != null) {
+                            let x = node.data.position.x - 0.3;
+                            node.data.position.set(x, node.data.position.y, node.data.position.z);
+                            node = node.next;
+                        }
                     }
 
                     // Render the changes
