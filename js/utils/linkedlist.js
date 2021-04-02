@@ -1,5 +1,5 @@
 /**
- * Implementation of the classic data structure (Singly) Linked List.
+ * @classdesc Implementation of the classic data structure (Singly) Linked List.
  * In this case, I decided to follow the FIFO policy.
  */
 class LinkedList {

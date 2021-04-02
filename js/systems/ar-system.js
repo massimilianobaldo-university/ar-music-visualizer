@@ -1,6 +1,13 @@
+/**
+ * This is the system that manages the Augmented Reality.
+ * All the operation realated to the creation and the inizialitazion of the AR are here.
+ * @namespace
+ */
 let ArSystem = {
     // Core variables of AR.js system
+    /** The source rappresents the input where the AR system needs to create the 3D Object */
     arToolkitSource: null, 
+    /** The context rappresents what the system has to recognize for the creation of the 3D Object */
     arToolkitContext: null,
 
     /**
@@ -11,6 +18,10 @@ let ArSystem = {
         arToolkitContext.update(arToolkitSource.domElement);
     },
 
+    /**
+     * Funtion the prepare the entire system.
+     * Needs to be launch only one time.
+     */
     setup() {
         ///// Setup arToolkitSource /////
     
@@ -49,6 +60,11 @@ let ArSystem = {
         });
     },
 
+    /**
+     * This function associate what the system needs to recognize with where it has to generate the 3d Object
+     * @param {THREE.Group()} audioGroup - Is the group which rappresent the 3d Object to augment
+     * @returns The controller of the AR system
+     */
     generateMarkerControls(audioGroup) {
         return new THREEx.ArMarkerControls(arToolkitContext, audioGroup, {
             type: 'pattern', patternUrl: "./data/hiro.patt",
