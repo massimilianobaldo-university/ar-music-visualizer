@@ -1,5 +1,6 @@
 // Constants
 const NUMBER_OF_BARS = 12;
+const FRAME_TO_SKIP = 5;
 
 function initialize() {
     /// three-system -> setup(NUMBER_OF_BARS)
@@ -30,9 +31,9 @@ function initialize() {
                 function animate() {
                     requestAnimationFrame(animate);
                     
-                    let array = AudioSystem.getFrequencyAudio();
+                    let arrayOfFrequencies = AudioSystem.getFrequencyAudio();
 
-                    let step = Math.round(array.length / NUMBER_OF_BARS);
+                    let step = Math.round(arrayOfFrequencies.length / NUMBER_OF_BARS);
 
                     // The difficul part
                     // For every element in the array, i need the last one
@@ -41,11 +42,7 @@ function initialize() {
 
                     // Generate a Random Color
                     // let color = goldRatioColors();
-
-                    // Create a material
-                    let material = ThreeSystem.generateMaterial(); /// three-system -> genearteMaterial()
-
-                    ThreeSystem.initialize(material, array, step);
+                    ThreeSystem.initialize(arrayOfFrequencies, step);
 
                     // Render the changes
                     ArSystem.update();

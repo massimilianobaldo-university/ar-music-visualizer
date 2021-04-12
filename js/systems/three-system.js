@@ -1,11 +1,24 @@
+/**
+ * This is the system that manages the Object to be draw in the AR System.
+ * All the operation realated to create an object, add it to the canvas, transform it ecc.. are inside this namespace.
+ * @namespace
+ */
 let ThreeSystem = {
     // Variabels for create the 3D Objects
     scene: null,
     camera: null,
     renderer: null,
 
-    // The grid for the real 3D Visualizer
-    // Array of LinkeList with the size of NUMBER_OF_BARS
+    /**
+    * This propety is useful to slow down the render operation.
+    * If you need to slow down or fast up the reinderization, go to modify the global value FRAME_TO_SKIP.
+    */
+    frameCounter: 0,
+
+    /** 
+     * The data structure of the grid for the real 3D Visualizer.
+     * It is compose in a Array of LinkeList, with the size of NUMBER_OF_BARS.
+     */
     gridBars: [],
 
     // The THREE.Group() where to store all the bars for the visualizer
@@ -94,7 +107,9 @@ let ThreeSystem = {
         let head = this.gridBars[index].getFirst();
 
         // Control that head is not null and is to distante
-        if (this.gridBars[index].size < NUMBER_OF_BARS) {
+        // head == null || head.data.position.x > -2.5
+        // this.gridBars[index].size < NUMBER_OF_BARS
+        if (head == null || head.data.position.x > -2) {
             // Add the bar to the LinkedList
             this.gridBars[index].add(barNode);
         } else {
@@ -113,26 +128,32 @@ let ThreeSystem = {
         let head = this.gridBars[index].getFirst();
         let node = head;
         while (node != null) {
-            let x = node.data.position.x - 0.3;
+            let x = node.data.position.x - 0.05;
             node.data.position.set(x, node.data.position.y, node.data.position.z);
             node = node.next;
         }
     },
 
-    initialize(material, array, step) {
+    initialize(array, step) {
         for (let i = 0; i < this.getGridSize(); i++) {
+            // Create a material
+            let material = this.generateMaterial(); /// three-system -> genearteMaterial()
             // Create the geometry for the bar
             let bar = this.generateBar(material); /// three-system -> genearteBar()
 
             /// bar = three-system -> tranformBar(bar)
             bar = this.tranformBar(bar, array, i, step);
 
-            /// three-system -> addToGridVisualizer(bar)
-            this.addToGridVisualizer(bar, i);
+            if (this.frameCounter % FRAME_TO_SKIP == 0) {
+                /// three-system -> addToGridVisualizer(bar)
+                this.addToGridVisualizer(bar, i);
+            }
 
             /// three-system -> translateGrid()
             this.translateGrid(i);
+
         }
+        this.frameCounter++;
     },
 
     /**
