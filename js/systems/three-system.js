@@ -21,26 +21,39 @@ let ThreeSystem = {
      */
     gridBars: [],
 
-    // The THREE.Group() where to store all the bars for the visualizer
+    /**
+     * The THREE.Group where to store all the bars for the visualizer
+     */
     audioGroup: null,
 
-    // The Object rappreseting the actual bar of the Grid Visualizer
+    /**
+     * The Object rappreseting the actual bar of the Grid Visualizer
+     */
     barGeometry: null,
 
+    /**
+     * Function that create all the stuff needed to visual render the objects.
+     * This function needs to be launch only one time.
+     */
     setup() {
 
+        // Generate the empty NUMBER_OF_BARS LinkedList
         for (let i = 0; i < NUMBER_OF_BARS; i++) {
             this.gridBars[i] = new LinkedList();
         }
 
+        // Create the scene
         scene = new THREE.Scene();
 
+        // Add a light to the scene
         let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
         scene.add(ambientLight);
 
+        // Add a camer to the scene
         camera = new THREE.Camera();
         scene.add(camera);
 
+        // Create the Render element and give him some properties
         renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true
@@ -53,16 +66,26 @@ let ThreeSystem = {
         renderer.domElement.style.left = '0px'
         document.body.appendChild(renderer.domElement);
 
+        // Adding the audioGroup to the scene
         audioGroup = new THREE.Group();
         scene.add(audioGroup);
 
+        // Create the template for the Box Geometry
         barGeometry = new THREE.BoxGeometry(0.15, 0.2, 0.15);
     },
 
+    /**
+     * Getter for the size of the grid
+     * @returns the size of the grid
+     */
     getGridSize() {
         return this.gridBars.length;
     },
 
+    /**
+     * Function to access the group of the Grid
+     * @returns {THREE.Group} the group where is store the Grid
+     */
     getAudioGroup() {
         return audioGroup;
     },
@@ -80,6 +103,14 @@ let ThreeSystem = {
         return new THREE.Mesh(barGeometry, material);
     },
 
+    /**
+     * This function trasfrom the single bar 
+     * @param {THREE.BoxGeometry} bar is the bar to transform
+     * @param {Uint8Array} array is the array containg the frequencies from the microphone
+     * @param {Number} index is the index-th LinkedList
+     * @param {Number} step is how much interval to jump in the array
+     * @returns a bar that is scaled based on the frequency and repositioned at the level of the floor.
+     */
     tranformBar(bar, array, index, step) {
         // Scale the object
         let value = array[(Math.floor(Math.random() * 10) + 1) * step] / 8;
@@ -99,6 +130,11 @@ let ThreeSystem = {
         return bar;
     },
 
+    /**
+     * This function add the transfomed bar to the Grid
+     * @param {THREE.BoxGeometry} bar is the treansformed bar
+     * @param {Number} index is the index-th LinkedList
+     */
     addToGridVisualizer(bar, index) {
         // Create the node rappresent the bar for the linked list
         let barNode = new Node(bar);
@@ -123,6 +159,10 @@ let ThreeSystem = {
         audioGroup.add(bar);
     },
 
+    /**
+     * This function translate all the bars, so it gives an effect of the time spent
+     * @param {Number} index is the index-th LinkedList
+     */
     translateGrid(index) {
         // Iterate through the bars and translate them
         let head = this.gridBars[index].getFirst();
@@ -134,25 +174,30 @@ let ThreeSystem = {
         }
     },
 
+    /**
+     * The core of the ThreeSystem, here we execute everything for start the system
+     * @param {Uint8Array} array is the array containg the frequencies from the microphone
+     * @param {Number} step is how much interval to jump in the array
+     */
     initialize(array, step) {
+        // Accessing for every single LinkedList
         for (let i = 0; i < this.getGridSize(); i++) {
             // Create a material
-            let material = this.generateMaterial(); /// three-system -> genearteMaterial()
+            let material = this.generateMaterial();
             // Create the geometry for the bar
-            let bar = this.generateBar(material); /// three-system -> genearteBar()
+            let bar = this.generateBar(material);
 
-            /// bar = three-system -> tranformBar(bar)
             bar = this.tranformBar(bar, array, i, step);
 
+            // Skipping some frames so that the video seems more fluid
             if (this.frameCounter % FRAME_TO_SKIP == 0) {
-                /// three-system -> addToGridVisualizer(bar)
                 this.addToGridVisualizer(bar, i);
             }
 
-            /// three-system -> translateGrid()
             this.translateGrid(i);
 
         }
+        // The frame pass after we access all the LinkedList, so we increment it
         this.frameCounter++;
     },
 
