@@ -1,18 +1,6 @@
-// Implementation of the classic data structure (Singly) Linked List
-// In this case, I decided to follow the FIFO policy.
-
 /**
- * Node is on of many element inside the LinkedList
- */
-class Node {
-    constructor(data) {
-        this.data = data
-        this.next = null
-    }
-}
-
-/**
- * Class to implement the LinkedList
+ * @classdesc Implementation of the classic data structure (Singly) Linked List.
+ * In this case, I decided to follow the FIFO policy.
  */
 class LinkedList {
     /**

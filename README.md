@@ -55,8 +55,12 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 
 - [Visualizer Example](https://github.com/wayou/3D_Audio_Spectrum_VIsualizer)
 
+- [Gradient Mesh Three.js](http://darrendev.blogspot.com/2016/03/gradients-in-threejs.html)
+
+- [AR-Code Generator](https://jeromeetienne.github.io/AR.js/three.js/examples/arcode.html)
+
 ## TODO
 
-- [x] Create the random color for the bars
+- [ ] Create the heatmap for the colors
 - [ ] Structurize the project folder
 - [ ] Possible use of a bundler or task runner
