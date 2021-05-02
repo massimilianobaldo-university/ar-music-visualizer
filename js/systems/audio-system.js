@@ -30,7 +30,7 @@ let AudioSystem = {
         // Connect the source to the analyzer
         source.connect(analyser);
         // and to destination
-        analyser.connect(audioCtx.destination);
+        // analyser.connect(audioCtx.destination);
     },
 
     /**
