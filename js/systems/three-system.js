@@ -60,7 +60,7 @@ let ThreeSystem = {
         });
 
         renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-        renderer.setSize(1920, 1080);
+        renderer.setSize(640, 480);
         renderer.domElement.style.position = 'absolute'
         renderer.domElement.style.top = '0px'
         renderer.domElement.style.left = '0px'
@@ -71,7 +71,7 @@ let ThreeSystem = {
         scene.add(audioGroup);
 
         // Create the template for the Box Geometry
-        barGeometry = new THREE.BoxGeometry(0.15, 0.2, 0.15);
+        barGeometry = new THREE.BoxGeometry(0.01, 0.02, 0.01);
     },
 
     /**
@@ -113,7 +113,7 @@ let ThreeSystem = {
      */
     tranformBar(bar, array, index, step) {
         // Scale the object
-        let value = array[(Math.floor(Math.random() * 10) + 1) * step] / 8;
+        let value = array[(array.length) - (step * index)] / 4;
         value = value < 1 ? 1 : value;
         bar.scale.y = value;
 
@@ -122,10 +122,10 @@ let ThreeSystem = {
         let heightBar = BB.getSize().y;
 
         // Calculate the z position where to put bars
-        let z = index == 0 ? 1.5 : this.gridBars[index - 1].getLast().data.position.z - 0.3;
+        let z = index == 0 ? 0.5 : this.gridBars[index - 1].getLast().data.position.z - 0.1;
 
         // Set the position for the bars
-        bar.position.set(2, bar.position.y + heightBar / 2, z);
+        bar.position.set(0.5, bar.position.y + heightBar / 2, z);
 
         return bar;
     },
@@ -145,7 +145,7 @@ let ThreeSystem = {
         // Control that head is not null and is to distante
         // head == null || head.data.position.x > -2.5
         // this.gridBars[index].size < NUMBER_OF_BARS
-        if (head == null || head.data.position.x > -2) {
+        if (head == null || head.data.position.x > -0.5) {
             // Add the bar to the LinkedList
             this.gridBars[index].add(barNode);
         } else {
@@ -168,7 +168,7 @@ let ThreeSystem = {
         let head = this.gridBars[index].getFirst();
         let node = head;
         while (node != null) {
-            let x = node.data.position.x - 0.05;
+            let x = node.data.position.x - 0.005;
             node.data.position.set(x, node.data.position.y, node.data.position.z);
             node = node.next;
         }

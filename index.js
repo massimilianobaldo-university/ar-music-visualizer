@@ -1,5 +1,5 @@
 // Constants
-const NUMBER_OF_BARS = 12;
+const NUMBER_OF_BARS = 10;
 const FRAME_TO_SKIP = 5;
 
 function initialize() {
