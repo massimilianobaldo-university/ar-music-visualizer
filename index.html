@@ -4,23 +4,29 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<title>Ar Music Visualizer</title>
 	<!-- include three.js library -->
-	<script src='libraries/three/three.js'></script>
-	<!-- include jsartookit -->
-	<script src="libraries/jsartoolkit5/artoolkit.min.js"></script>
-	<!-- include threex.artoolkit -->
-	<script src="libraries/threex/threex-artoolkitsource.js"></script>
-	<script src="libraries/threex/threex-artoolkitcontext.js"></script>
-	<script src="libraries/threex/threex-arbasecontrols.js"></script>
-	<script src="libraries/threex/threex-armarkercontrols.js"></script>
+	<script src="libraries/three.min.js"></script>
+	<!-- include ar.js -->
+	<script src="libraries/ar.js"></script>
+	<!-- include stats -->
+	<script src="libraries/stats.min.js"></script>
+	<!-- a little bit of style -->
+	<link rel="stylesheet" href="./index.css">
 </head>
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
-<script src="./js/utils/node.js"></script>
-<script src="./js/utils/linkedlist.js"></script>
-<script src="./js/systems/audio-system.js"></script>
-<script src="./js/systems/ar-system.js"></script>
-<script src="./js/systems/three-system.js"></script>
-<script src="index.js"></script>
+<body>
+
+	<div>
+		<p> AR-Music-Visualizer <br />
+			Link to the project: <a href='https://github.com/massimilianobaldo/ar-music-visualizer'
+				target='_blank'>github</a></p>
+	</div>
+
+	<script src="./js/utils/node.js"></script>
+	<script src="./js/utils/linkedlist.js"></script>
+	<script src="./js/systems/audio-system.js"></script>
+	<script src="./js/systems/ar-system.js"></script>
+	<script src="./js/systems/three-system.js"></script>
+	<script src="index.js"></script>
 </body>
 
 </html>

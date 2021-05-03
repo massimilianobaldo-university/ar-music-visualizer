@@ -1,0 +1,12 @@
+body {
+	margin: 0px;
+	overflow: hidden;
+	font-family: Monospace;
+}
+
+div {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	z-index: 1;
+}
