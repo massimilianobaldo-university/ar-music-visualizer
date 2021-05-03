@@ -32,6 +32,11 @@ let ThreeSystem = {
     barGeometry: null,
 
     /**
+     * Variable to store the Status for the THREE library
+     */
+    stats: null,
+
+    /**
      * Function that create all the stuff needed to visual render the objects.
      * This function needs to be launch only one time.
      */
@@ -55,12 +60,12 @@ let ThreeSystem = {
 
         // Create the Render element and give him some properties
         renderer = new THREE.WebGLRenderer({
-            antialias: true,
+            //antialias: true,
             alpha: true
         });
 
         renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-        renderer.setSize(640, 480);
+        // renderer.setSize(640, 480);
         renderer.domElement.style.position = 'absolute'
         renderer.domElement.style.top = '0px'
         renderer.domElement.style.left = '0px'
@@ -72,6 +77,10 @@ let ThreeSystem = {
 
         // Create the template for the Box Geometry
         barGeometry = new THREE.BoxGeometry(0.01, 0.02, 0.01);
+
+        // Adding some Stats
+        stats = new Stats();
+	    document.body.appendChild( stats.dom );
     },
 
     /**
@@ -119,7 +128,10 @@ let ThreeSystem = {
 
         // Create a Bounding Box to calculate the actual dimensions
         let BB = new THREE.Box3().setFromObject(bar);
-        let heightBar = BB.getSize().y;
+        let Vector3 = new THREE.Vector3();
+        // Copy the size of the box in the Vector3
+        Vector3 = BB.getSize(Vector3);
+        let heightBar = Vector3.y;
 
         // Calculate the z position where to put bars
         let z = index == 0 ? 0.5 : this.gridBars[index - 1].getLast().data.position.z - 0.1;
@@ -206,5 +218,6 @@ let ThreeSystem = {
      */
     render() {
         renderer.render(scene, camera);
+        stats.update();
     }
 }
