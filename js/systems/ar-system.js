@@ -6,7 +6,7 @@
 let ArSystem = {
     // Core variables of AR.js system
     /** The source rappresents the input where the AR system needs to create the 3D Object */
-    arToolkitSource: null, 
+    arToolkitSource: null,
     /** The context rappresents what the system has to recognize for the creation of the 3D Object */
     arToolkitContext: null,
 
@@ -14,8 +14,8 @@ let ArSystem = {
     * Function to udpate the artoolkit on every frame
     */
     update() {
-    if (arToolkitSource.ready !== false)
-        arToolkitContext.update(arToolkitSource.domElement);
+        if (arToolkitSource.ready !== false)
+            arToolkitContext.update(arToolkitSource.domElement);
     },
 
     /**
@@ -24,11 +24,16 @@ let ArSystem = {
      */
     setup() {
         ///// Setup arToolkitSource /////
-    
+
         arToolkitSource = new THREEx.ArToolkitSource({
             sourceType: 'webcam',
+            sourceWidth: window.innerWidth - 10,
+            sourceHeight: window.innerHeight - 10,
+            // resolution displayed for the source
+            displayWidth: window.innerWidth,
+            displayHeight: window.innerHeight
         });
-    
+
         function onResize() {
             arToolkitSource.onResizeElement()
             arToolkitSource.copyElementSizeTo(renderer.domElement)
@@ -36,24 +41,24 @@ let ArSystem = {
                 arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
             }
         }
-    
+
         arToolkitSource.init(function onReady() {
             onResize()
         });
-    
+
         // Handle the resize event
         window.addEventListener('resize', function () {
             onResize()
         });
-    
+
         ///// setup arToolkitContext /////
-    
+
         // Create atToolkitContext
         arToolkitContext = new THREEx.ArToolkitContext({
             cameraParametersUrl: './data/camera_para.dat',
             detectionMode: 'mono',
         });
-    
+
         // Copy projection matrix to camera when initialization complete
         arToolkitContext.init(function onCompleted() {
             camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
