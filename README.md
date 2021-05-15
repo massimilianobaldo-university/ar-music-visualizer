@@ -9,7 +9,7 @@ Moreover, the JS libraries are:
 - [Three.js](https://threejs.org/)
 
 ## Usage
-To use the app, you need to have the Hiro pattern and a device with a cam and a microphone. You can find the Hiro pattern [here]().
+To use the app, you need to have the Hiro pattern and a device with a cam and a microphone. You can find the Hiro pattern [here](https://github.com/massimilianobaldo/ar-music-visualizer/blob/main/Hiro-QRCode.pdf).
 
 Now, you can scan the QRCode to access to the app or you can use this [link](https://baldomassimiliano.com/ar-music-visualizer).
 The app works on any browser with WebGL and WebRTC. So android works. Windows mobile works. 
