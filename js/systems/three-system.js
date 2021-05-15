@@ -65,7 +65,7 @@ let ThreeSystem = {
         });
 
         renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-        renderer.setSize(window.innerWidth - 10, window.innerHeight - 10);
+        //renderer.setSize(window.innerWidth - 10, window.innerHeight - 10);
         renderer.domElement.style.position = 'absolute'
         renderer.domElement.style.top = '0px'
         renderer.domElement.style.left = '0px'
@@ -102,8 +102,11 @@ let ThreeSystem = {
     // Return a new Material for the Object3D
     // RGBToHex(color.r, color.g, color.b)
     generateMaterial() {
+        // Generate a random color
+        let color = goldRatioColors();
+
         return new THREE.MeshPhongMaterial({
-            color: new THREE.Color(),
+            color: new THREE.Color(RGBToHex(color.r, color.g, color.b)),
             specular: 0xffffff
         });
     },

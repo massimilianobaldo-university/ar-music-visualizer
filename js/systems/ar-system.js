@@ -27,11 +27,6 @@ let ArSystem = {
 
         arToolkitSource = new THREEx.ArToolkitSource({
             sourceType: 'webcam',
-            sourceWidth: window.innerWidth - 10,
-            sourceHeight: window.innerHeight - 10,
-            // resolution displayed for the source
-            displayWidth: window.innerWidth,
-            displayHeight: window.innerHeight
         });
 
         function onResize() {
